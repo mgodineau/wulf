@@ -1,9 +1,9 @@
 package wulf;
 
 public class Camera extends GameObject {
-	
+
 	private float fov;
-	
+
 	public float getFov() {
 		return fov;
 	}
@@ -11,15 +11,15 @@ public class Camera extends GameObject {
 	public void setFov(float fov) {
 		this.fov = fov;
 	}
-	
-	private 
-	
-	public Camera () {
+
+	//private
+
+	public Camera() {
 		this(90);
 	}
-	
-	public Camera( float fov ) {
+
+	public Camera(float fov) {
 		this.setFov(fov);
 	}
-	
+
 }

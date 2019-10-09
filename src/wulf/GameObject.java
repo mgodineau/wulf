@@ -30,7 +30,7 @@ public class GameObject {
 		this.posY = posY;
 		
 	}
-	public float getAngle() {
+	public double getAngle() {
 		return angle;
 	}
 	public void setAngle(float angle) {
