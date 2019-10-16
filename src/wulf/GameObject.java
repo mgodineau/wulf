@@ -2,21 +2,21 @@ package wulf;
 
 public class GameObject {
 	
-	private float posX;
-	private float posY;
-	private double angle;
+	private double posX;
+	private double posY;
+	private double angle; //angle en radian
 	
 	
-	public float getPosX() {
+	public double getPosX() {
 		return posX;
 	}
-	public void setPosX(float posX) {
+	public void setPosX(double posX) {
 		this.posX = posX;
 	}
-	public float getPoxY() {
+	public double getPoxY() {
 		return posY;
 	}
-	public void setPoxY(float poxY) {
+	public void setPosY(double poxY) {
 		this.posY = poxY;
 	}
 	
@@ -25,15 +25,23 @@ public class GameObject {
 		this(0,0);
 	}
 	
-	public GameObject( float posX , float posY) {
-		this.posX = posX;
-		this.posY = posY;
+	public GameObject( double posX , double posY) {
+		this( posX , posY , 90 );
+	}
+	
+	public GameObject( double posX , double posY , double angle) {
+		setPosX(posX);
+		setPosY(posY);
+		setAngleDeg(angle);
 		
 	}
 	public double getAngle() {
 		return angle;
 	}
-	public void setAngle(float angle) {
+	public void setAngleDeg(double angle) {
+		setAngleRad(Math.toRadians(angle) );
+	}
+	public void setAngleRad(double angle) {
 		this.angle = angle;
 	}
 	
