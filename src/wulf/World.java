@@ -18,14 +18,14 @@ public class World {
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
 
-		// coordonnées courrantes
+		// coordonnï¿½es courrantes
 		double x = xStart;
 		double y = yStart;
 
-		// coordonnées du mur à tester
+		// coordonnï¿½es du mur ï¿½ tester
 		int u = (int) x;
 		int v = (int) y;
-
+		
 		double[] interH;
 		double[] interV;
 
@@ -40,12 +40,12 @@ public class World {
 			}
 			interH = intersectLine(true, lineIdH, x, y, cos, sin);
 			interV = intersectLine(false, lineIdV, x, y, cos, sin);
-			if (sqrDist(interH) <= sqrDist(interV)) {
+			if (sqrDist(interH[0]-xStart , interH[1]-yStart) <= sqrDist(interV[0]-xStart , interV[1]-yStart)) {
 				// intersection avec une ligne horizontale
 				x = interH[0];
 				y = interH[1];
 
-				u = (int) (x + (cos > 0 ? 1 : 0));
+				u = ((int) x) + (cos > 0 ? 0 : -1);
 				v = (int) y;
 			} else {
 				// intersection avec une ligne verticale
@@ -53,7 +53,7 @@ public class World {
 				y = interV[1];
 
 				u = (int) x;
-				v = (int) y + (sin > 0 ? 1 : 0);
+				v = ((int) y) + (sin > 0 ? 0 : -1);
 			}
 
 		}
@@ -89,7 +89,7 @@ public class World {
 		return out;
 	}
 
-	// détermine si un point est dans la carte
+	// dï¿½termine si un point est dans la carte
 	private boolean pointInMap(double x, double y) {
 		return (x >= 0 && x < width) && (y >= 0 && y < height);
 	}
@@ -98,14 +98,14 @@ public class World {
 		return !pointInMap(x, y) || map[x][y] == Wall.MUR;
 	}
 
-	private double sqrDist(double[] coord) {
+	/*private double sqrDist(double[] coord) {
 		try {
 			return sqrDist(coord[0], coord[1]);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
 			return -1;
 		}
-	}
+	}*/
 
 	private double sqrDist(double x, double y) {
 		return x * x + y * y;
