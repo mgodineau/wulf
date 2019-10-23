@@ -13,14 +13,25 @@ public class wulfMain {
 		};
 		
 		World world = new World( map );
-		Renderer rend = new RendererStdDraw(1000, 600);
+		Renderer rend = new RendererFast(1000, 600);
+		//Renderer rend = new RendererStdDraw(1000, 600);
 		
+		WulfWindow window = null;
+		if ( rend instanceof RendererFast ) {
+			window = new WulfWindow((RendererFast) rend );
+		}
 		Camera cam = new Camera(90);
 		cam.setAngleDeg(40);
 		cam.setPosX(3);
 		cam.setPosY(2);
 		
-		float deltaTime = 16; //le detaTime en milisecondes. 1/60e de seconde fait 16 ms.
+		rend.drawImg(world, cam);
+		window.getPanel().setDisplay( ((RendererFast) rend).getImg() );
+		//System.out.println(window);
+		
+		
+		//boucle de jeu moche
+		/*float deltaTime = 16; //le detaTime en milisecondes. 1/60e de seconde fait 16 ms.
 		float spd = 0.3f;
 		double timeToRad = Math.PI * 2.0 / 1000.0; //une constante qu'il faut multiplier par le tps pour avoir l'angle
 		
@@ -28,9 +39,12 @@ public class wulfMain {
 			cam.setPosX( 2.5 + Math.cos(t*timeToRad * spd) );
 			cam.setPosY( 2.5 + Math.sin(t*timeToRad * spd) );
 			rend.drawImg(world, cam);
-			StdDraw.clear();
-			StdDraw.pause((int) deltaTime);
-		}
+			
+			if( rend instanceof RendererStdDraw ) {
+				StdDraw.clear();
+				StdDraw.pause( (int)deltaTime );
+			}
+		}*/
 		
 	}
 }
