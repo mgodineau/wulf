@@ -1,40 +1,35 @@
 package wulf;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 public class wulfMain {
 
 	public static void main(String[] args) {
 		
 		Wall[][] map = {
-			{ Wall.MUR , Wall.MUR , Wall.MUR , Wall.MUR , Wall.MUR },
-			{ Wall.MUR , Wall.VIDE, Wall.VIDE , Wall.VIDE , Wall.MUR },
-			{ Wall.MUR , Wall.VIDE, Wall.MUR , Wall.VIDE , Wall.MUR },
-			{ Wall.MUR , Wall.VIDE, Wall.VIDE , Wall.VIDE , Wall.MUR },
-			{ Wall.MUR , Wall.MUR , Wall.MUR , Wall.MUR , Wall.MUR }
+			{ Wall.MurBleu , Wall.MurBleu , Wall.MurBleu , Wall.MurBleu , Wall.MurBleu },
+			{ Wall.MurBleu , Wall.VIDE, Wall.VIDE , Wall.VIDE , Wall.MurBleu },
+			{ Wall.MurBleu , Wall.VIDE, Wall.MurBleu , Wall.VIDE , Wall.MurBleu },
+			{ Wall.MurBleu , Wall.VIDE, Wall.VIDE , Wall.VIDE , Wall.MurBleu },
+			{ Wall.MurBleu , Wall.MurBleu , Wall.MurBleu , Wall.MurBleu , Wall.MurBleu }
 		};
 		
 		World world = new World( map );
-		Renderer rend = new RendererFast(1000, 600);
-		//Renderer rend = new RendererStdDraw(1000, 600);
-		
-		WulfWindow window = null;
-		if ( rend instanceof RendererFast ) {
-			window = new WulfWindow((RendererFast) rend );
-		}
 		Camera cam = new Camera(90);
 		cam.setAngleDeg(40);
 		cam.setPosX(3);
 		cam.setPosY(2);
 		
+		WulfGameManager gameManager = new WulfGameManager(world, cam, 1000, 600);
+		gameManager.startLoop();
 		
-		//trucs de test
-		rend.drawImg(world, cam);
-		//window.getPanel().setDisplay( ((RendererFast) rend).getImg() );
+		/*RendererFast rend = new RendererFast(1000, 600);
+		//Renderer rend = new RendererStdDraw(1000, 600);
+		
+		WulfWindow window = new WulfWindow( rend );
+		Camera cam = new Camera(90);
+		cam.setAngleDeg(40);
+		cam.setPosX(3);
+		cam.setPosY(2);
+		
 		
 		//writeImg( window.getPanel().getDisplay() );
 		//writeImg( ((RendererFast) rend).getRenderImg() );
@@ -48,24 +43,12 @@ public class wulfMain {
 		for ( float t=0; true || t<10000; t += deltaTime ) {
 			cam.setPosX( 2.5 + Math.cos(t*timeToRad * spd) );
 			cam.setPosY( 2.5 + Math.sin(t*timeToRad * spd) );
-			rend.drawImg(world, cam);
 			
-			if( rend instanceof RendererStdDraw ) {
-				StdDraw.clear();
-				StdDraw.pause( (int)deltaTime );
-			}
-		}
+			rend.drawImg(world, cam);
+		}*/
 		
 	}
 	
 	
-	public static void writeImg ( BufferedImage img ) {
-		File outputFile = new File("test.jpg");
-		try {
-			ImageIO.write(img, "jpg", outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 }

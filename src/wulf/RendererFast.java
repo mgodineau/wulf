@@ -2,10 +2,6 @@ package wulf;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class RendererFast extends Renderer {
 

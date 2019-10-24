@@ -710,7 +710,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     // create the menu bar (changed to private)
-    private static JMenuBar createMenuBar() {
+    @SuppressWarnings("deprecation")
+	private static JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menuBar.add(menu);
@@ -2026,10 +2027,12 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
    /***************************************************************************
     *  For improved resolution on Mac Retina displays.
     ***************************************************************************/
-
+    
     private static class RetinaImageIcon extends ImageIcon {
     
-        public RetinaImageIcon(Image image) {
+	private static final long serialVersionUID = 1L; //truc rajouté mais qui sert à rien, parce que sinon ça fait une erreur
+
+		public RetinaImageIcon(Image image) {
             super(image);
         }
 
@@ -2056,7 +2059,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             g2.dispose();
         }
     }
-
+	
 
     /**
      * Test client.

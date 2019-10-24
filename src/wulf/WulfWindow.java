@@ -1,11 +1,11 @@
 package wulf;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
 public class WulfWindow extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private WulfRenderPanel panel;
 	

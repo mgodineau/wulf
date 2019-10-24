@@ -95,7 +95,7 @@ public class World {
 	}
 
 	private boolean isWall(int x, int y) {
-		return !pointInMap(x, y) || map[x][y] == Wall.MUR;
+		return !pointInMap(x, y) || map[x][y] == Wall.MurBleu;
 	}
 
 	/*private double sqrDist(double[] coord) {
