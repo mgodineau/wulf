@@ -10,9 +10,14 @@ import javax.swing.JPanel;
 public class RendererFast extends Renderer {
 
 	private BufferedImage renderImg;
-	private WritableRaster raster;
 	
-	private JFrame window;
+	//private JFrame window;
+	
+
+	public BufferedImage getRenderImg() {
+		return renderImg;
+	}
+	
 	
 	@Override
 	public void drawImg(World world, Camera cam) {
@@ -29,13 +34,11 @@ public class RendererFast extends Renderer {
 			dst = world.raycast(cam.getPosX(), cam.getPoxY(), raycastAngle) * 3;
 			dst *= Math.sin(relativeCastAngle);
 			if (dst >= cam.getClipNear()) {
-				groundHeightOnScreen = (1.0 - 1.0 / dst) / 2;
+				groundHeightOnScreen = (1.0 - 1.0 / dst) / 2 * height;
 				// TODO draw line
-				drawLine(x, (int) groundHeightOnScreen, (int) (1.0 / dst + groundHeightOnScreen));
+				drawLine(x, (int) groundHeightOnScreen, (int) (height / dst + groundHeightOnScreen) );
 			}
 		}
-		// TODO draw image
-
 	}
 	
 	public BufferedImage getImg () {
@@ -44,25 +47,27 @@ public class RendererFast extends Renderer {
 	
 
 	private void drawLine ( int x, int bot, int top ) {
-		float[] colRoof = {10, 10 , 10};
-		float[] colWall = {200, 200 , 200};
-		float[] colFloor = {30, 30 , 30};
+		bot = bot<0 ? 0 : bot;
+		top = top>= height ? height-1 : top;
+		int colRoof = Color.blue.getRGB();
+		int colWall = Color.red.getRGB();
+		int colFloor = Color.gray.getRGB();
+		
 		for ( int y=0; y<bot; y++ ) {
-			raster.setPixel(x, y, colFloor);
+			renderImg.setRGB(x, y, colFloor);
 		}
 		for( int y=bot; y<= top; y++ ) {
-			raster.setPixel(x, y, colWall );
+			renderImg.setRGB(x, y, colWall);
 		}
 		for ( int y=top+1; y<height; y++ ) {
-			raster.setPixel(x, y, colRoof );
+			renderImg.setRGB(x, y, colRoof);
 		}
 	}
 
 	public RendererFast(int width, int height) {
 		super(width, height);
 		renderImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		raster = renderImg.getRaster();
 		
 	}
-
+	
 }

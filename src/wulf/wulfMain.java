@@ -1,5 +1,11 @@
 package wulf;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class wulfMain {
 
 	public static void main(String[] args) {
@@ -25,13 +31,17 @@ public class wulfMain {
 		cam.setPosX(3);
 		cam.setPosY(2);
 		
+		
+		//trucs de test
 		rend.drawImg(world, cam);
-		window.getPanel().setDisplay( ((RendererFast) rend).getImg() );
-		//System.out.println(window);
+		//window.getPanel().setDisplay( ((RendererFast) rend).getImg() );
+		
+		//writeImg( window.getPanel().getDisplay() );
+		//writeImg( ((RendererFast) rend).getRenderImg() );
 		
 		
 		//boucle de jeu moche
-		/*float deltaTime = 16; //le detaTime en milisecondes. 1/60e de seconde fait 16 ms.
+		float deltaTime = 16; //le detaTime en milisecondes. 1/60e de seconde fait 16 ms.
 		float spd = 0.3f;
 		double timeToRad = Math.PI * 2.0 / 1000.0; //une constante qu'il faut multiplier par le tps pour avoir l'angle
 		
@@ -44,7 +54,18 @@ public class wulfMain {
 				StdDraw.clear();
 				StdDraw.pause( (int)deltaTime );
 			}
-		}*/
+		}
 		
 	}
+	
+	
+	public static void writeImg ( BufferedImage img ) {
+		File outputFile = new File("test.jpg");
+		try {
+			ImageIO.write(img, "jpg", outputFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
