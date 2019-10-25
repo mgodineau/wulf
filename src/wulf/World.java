@@ -1,19 +1,69 @@
 package wulf;
 
+import java.awt.Color;
+
 public class World {
 
+	// représentation du monde
 	private Wall[][] map;
 	private int width;
 	private int height;
 
+	// gestion des couleurs
+	private Color groundCol;
+	private Color roofCol;
+
 	public Wall getWall(int x, int y) {
 		return map[x][y];
 	}
+	
+	
+	public Color getGroundCol() {
+		return groundCol;
+	}
 
+	public void setGroundCol(Color groundCol) {
+		this.groundCol = groundCol;
+	}
+
+	public Color getRoofCol() {
+		return roofCol;
+	}
+
+	public void setRoofCol(Color roofCol) {
+		this.roofCol = roofCol;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth () {
+		return width;
+	}
+	
+	public Collision raycastCol ( double xStart, double yStart, double angle ) {
+		double dist = raycastDist(xStart, yStart, angle);
+		double[] normal = new double[2];
+		if ( dist <= 0 ) {
+			//normal vers la droite ou la gauche
+			normal[0] = Math.cos(angle)>0 ? -1 : 1;
+		} else {
+			//normal vers le haut ou le bas
+			normal[1] = Math.sin(angle)>0 ? -1 : 1;
+		}
+		dist = Math.abs(dist);
+		double[] pos = { xStart + Math.cos(angle) * dist, yStart + Math.sin(angle) * dist };
+		
+		return new Collision(dist, Wall.MurBleu, pos, normal);
+	}
+	
 	// lance un rayon de (x,y) avec la direction angle (en radian), et retourne la
-	// distance du mur le plus proche
-	public double raycast(double xStart, double yStart, double angle) {
-
+	// distance du mur le plus proche, positive ou négative en fonction de si la collision est sur un mur vertical ou horizontal
+	public double raycastDist(double xStart, double yStart, double angle) {
+		
+		//indicateur de verticalité
+		boolean verticalCol = false;
+		
 		// cos et sin de l'angle
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
@@ -25,7 +75,7 @@ public class World {
 		// coordonn�es du mur � tester
 		int u = (int) x;
 		int v = (int) y;
-		
+
 		double[] interH;
 		double[] interV;
 
@@ -40,8 +90,9 @@ public class World {
 			}
 			interH = intersectLine(true, lineIdH, x, y, cos, sin);
 			interV = intersectLine(false, lineIdV, x, y, cos, sin);
-			if (sqrDist(interH[0]-xStart , interH[1]-yStart) <= sqrDist(interV[0]-xStart , interV[1]-yStart)) {
+			if (sqrDist(interH[0] - xStart, interH[1] - yStart) <= sqrDist(interV[0] - xStart, interV[1] - yStart)) {
 				// intersection avec une ligne horizontale
+				verticalCol =false;
 				x = interH[0];
 				y = interH[1];
 
@@ -49,6 +100,7 @@ public class World {
 				v = (int) y;
 			} else {
 				// intersection avec une ligne verticale
+				verticalCol =true;
 				x = interV[0];
 				y = interV[1];
 
@@ -58,7 +110,7 @@ public class World {
 
 		}
 
-		return dist(x - xStart, y - yStart);
+		return dist(x - xStart, y - yStart) * (verticalCol ? 1 : -1);
 
 	}
 
@@ -98,14 +150,11 @@ public class World {
 		return !pointInMap(x, y) || map[x][y] == Wall.MurBleu;
 	}
 
-	/*private double sqrDist(double[] coord) {
-		try {
-			return sqrDist(coord[0], coord[1]);
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println(e.getMessage());
-			return -1;
-		}
-	}*/
+	/*
+	 * private double sqrDist(double[] coord) { try { return sqrDist(coord[0],
+	 * coord[1]); } catch (IndexOutOfBoundsException e) {
+	 * System.out.println(e.getMessage()); return -1; } }
+	 */
 
 	private double sqrDist(double x, double y) {
 		return x * x + y * y;
@@ -120,11 +169,20 @@ public class World {
 	}
 
 	public World(int height, int width) {
-		map = new Wall[Math.max(0, height)][Math.max(0, width)];
+		this(new Wall[Math.max(0, height)][Math.max(0, width)]);
+	}
+	
+	public World(Wall[][] map) {
+		this(map, Color.DARK_GRAY, Color.gray);
 	}
 
-	public World(Wall[][] map) {
-		// on met la map corrigée dans la variable
+	public World(Wall[][] map, Color groundCol, Color roofCol) {
+		
+		//initialisation des couleurs
+		this.groundCol = groundCol;
+		this.roofCol = roofCol;
+		
+		//initialisaton de la carte
 		this.map = map;
 		height = map.length;
 
@@ -144,5 +202,7 @@ public class World {
 		}
 
 	}
+
+	
 
 }

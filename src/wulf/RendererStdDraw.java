@@ -27,7 +27,7 @@ public class RendererStdDraw extends Renderer {
 		for (int x = 0; x < width; x++) {
 			relativeCastAngle = Math.atan2( cam.getClipNear() , screenToWorld * (double)(x - width/2) );
 			raycastAngle = cam.getAngle() + relativeCastAngle;
-			dst = world.raycast(cam.getPosX(), cam.getPoxY(), raycastAngle) * 3;
+			dst = world.raycastDist(cam.getPosX(), cam.getPoxY(), raycastAngle) * 3;
 			dst *= Math.sin(relativeCastAngle);
 			if (dst >= cam.getClipNear()) {
 				groundHeightOnScreen = (1.0 - 1.0 / dst) / 2;

@@ -17,7 +17,7 @@ public class WulfGameManager {
 		while (true) {
 			update( deltaTime );
 			try {
-				Thread.sleep((long) (deltaTime) );
+				Thread.sleep((long) (deltaTime ) );
 			} catch (InterruptedException e) {
 				System.out.println("Error sleeping : " + e.getMessage() );
 			}
@@ -32,21 +32,21 @@ public class WulfGameManager {
 	
 	public void update( double deltaTime ) {
 		
-		//mise à jour de la logique de jeu
-		//TODO faire un truc clean pour virer ces trucs dégueu
+		//mise ï¿½ jour de la logique de jeu
+		//TODO faire un truc clean pour virer ces trucs dï¿½gueu
 		tps += deltaTime;
-		cam.setPosX( 2.5 + Math.cos(tps*timeToRad * spd) );
-		cam.setPosY( 2.5 + Math.sin(tps*timeToRad * spd) );
+		cam.setPosX( 4 + Math.cos(tps*timeToRad * spd) * 2.5 );
+		cam.setPosY( 4 + Math.sin(tps*timeToRad * spd) * 2.5 );
 		
-		//mise à jour de la résolution de la fenêtre 
+		//mise ï¿½ jour de la rï¿½solution de la fenï¿½tre 
 		Dimension dim = win.getSize();
 		rend.setHeight(dim.height);
 		rend.setWidth(dim.width);
 		
-		//génération de l'image dans un BufferedImage
+		//gï¿½nï¿½ration de l'image dans un BufferedImage
 		rend.drawImg(world, cam);
 		
-		//mise à jours de la fenêtre 
+		//mise ï¿½ jours de la fenï¿½tre 
 		win.repaint();
 		
 		
