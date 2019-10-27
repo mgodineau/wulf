@@ -9,7 +9,9 @@ import javax.imageio.ImageIO;
 public enum Wall {
 	
 	VIDE(),
-	MurBleu("assets/textures/blueWall.png");
+	MurBleu("assets/textures/blueWall.png"),
+	MurGris("assets/textures/grayWall.png")
+	;
 	
 	
 	private File textureFile;

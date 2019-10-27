@@ -39,6 +39,8 @@ public abstract class Renderer {
 		
 		setWidth(width);
 		setHeight(height);
+		
+		
 	}
 	
 	

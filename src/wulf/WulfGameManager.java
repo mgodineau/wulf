@@ -6,52 +6,66 @@ public class WulfGameManager {
 	
 	
 	private World world;
+	
+	private InputManager inputMng;
 	private RendererFast rend;
 	private WulfWindow win;
 	
 	private Camera cam;
 	
+	private Dimension prevDim;
 	
 	public void startLoop() {
-		double deltaTime = 16; //deltaTime, en miliseconde
+		prevDim = win.getSize();
+		
+		double deltaTimeTgt = 0.16; //tps idéal entre chaque frame
+		double deltaTime = deltaTimeTgt; //deltaTime, en miliseconde
+		double nextDeltaTimeNano = 0;
+		
+		
 		while (true) {
+			nextDeltaTimeNano = -System.nanoTime();
 			update( deltaTime );
+			nextDeltaTimeNano += System.nanoTime();
+			deltaTime = nextDeltaTimeNano / 1000000;
 			try {
-				Thread.sleep((long) (deltaTime ) );
+				Thread.sleep((long) ( Math.max(0, deltaTimeTgt - deltaTime ) ) );
 			} catch (InterruptedException e) {
 				System.out.println("Error sleeping : " + e.getMessage() );
 			}
+			
+			//affichage moche du nb de fps
+			//System.out.println( 1.0/(deltaTime/1000.0) + " fps" );
 		}
 
 	}
 	
-	//TODO machins crados
-	private double tps = 0;
-	double timeToRad = Math.PI * 2.0 / 1000.0;
-	float spd = 0.1f;
 	
 	public void update( double deltaTime ) {
 		
 		//mise ï¿½ jour de la logique de jeu
 		//TODO faire un truc clean pour virer ces trucs dï¿½gueu
-		tps += deltaTime;
-		cam.setPosX( 4 + Math.cos(tps*timeToRad * spd) * 2.5 );
-		cam.setPosY( 4 + Math.sin(tps*timeToRad * spd) * 2.5 );
+		cam.update(deltaTime/1000, inputMng);
 		
 		//mise ï¿½ jour de la rï¿½solution de la fenï¿½tre 
 		Dimension dim = win.getSize();
-		rend.setHeight(dim.height);
-		rend.setWidth(dim.width);
+		if ( dim.height != prevDim.height || dim.width != prevDim.width ) {
+			rend.setHeight( dim.height );
+			rend.setWidth(dim.width);
+			win.getPanel().setimg( rend.getImg() );
+		}
+		
+		prevDim = dim;
+		
+		
 		
 		//gï¿½nï¿½ration de l'image dans un BufferedImage
 		rend.drawImg(world, cam);
 		
 		//mise ï¿½ jours de la fenï¿½tre 
-		win.repaint();
+		//win.repaint();
 		
 		
-		//TODO test
-		Wall.MurBleu.getTexture();
 	}
 	
 	
@@ -64,8 +78,14 @@ public class WulfGameManager {
 		this.world = world;
 		this.cam = cam;
 		
+		
 		rend = new RendererFast(width, height);
+		rend.loadTextures(world); //pas indispensable
+		rend.loadObjTextures(world);
+		
+		inputMng = new InputManager();
 		win = new WulfWindow(rend);
+		win.addKeyListener(inputMng);
 	}
 
 }

@@ -1,6 +1,7 @@
 package wulf;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class World {
 
@@ -12,7 +13,10 @@ public class World {
 	// gestion des couleurs
 	private Color groundCol;
 	private Color roofCol;
-
+	
+	//liste de objets de jeu
+	private ArrayList<GameObject> gameObjectLst;
+	
 	public Wall getWall(int x, int y) {
 		return map[x][y];
 	}
@@ -41,25 +45,21 @@ public class World {
 		return width;
 	}
 	
-	public Collision raycastCol ( double xStart, double yStart, double angle ) {
-		double dist = raycastDist(xStart, yStart, angle);
-		double[] normal = new double[2];
-		if ( dist <= 0 ) {
-			//normal vers la droite ou la gauche
-			normal[0] = Math.cos(angle)>0 ? -1 : 1;
-		} else {
-			//normal vers le haut ou le bas
-			normal[1] = Math.sin(angle)>0 ? -1 : 1;
-		}
-		dist = Math.abs(dist);
-		double[] pos = { xStart + Math.cos(angle) * dist, yStart + Math.sin(angle) * dist };
-		
-		return new Collision(dist, Wall.MurBleu, pos, normal);
+	
+	//ajout d'objets de jeu
+	public void addObj ( GameObject obj ) {
+		gameObjectLst.add(obj);
+		obj.setWorld(this);
 	}
+	
+	public ArrayList<GameObject> getObjectLst () {
+		return gameObjectLst;
+	}
+	
 	
 	// lance un rayon de (x,y) avec la direction angle (en radian), et retourne la
 	// distance du mur le plus proche, positive ou négative en fonction de si la collision est sur un mur vertical ou horizontal
-	public double raycastDist(double xStart, double yStart, double angle) {
+	public Collision raycast(double xStart, double yStart, double angle) {
 		
 		//indicateur de verticalité
 		boolean verticalCol = false;
@@ -90,7 +90,7 @@ public class World {
 			}
 			interH = intersectLine(true, lineIdH, x, y, cos, sin);
 			interV = intersectLine(false, lineIdV, x, y, cos, sin);
-			if (sqrDist(interH[0] - xStart, interH[1] - yStart) <= sqrDist(interV[0] - xStart, interV[1] - yStart)) {
+			if ( SimpleMath.sqrDist(interH[0] - xStart, interH[1] - yStart) <= SimpleMath.sqrDist(interV[0] - xStart, interV[1] - yStart)) {
 				// intersection avec une ligne horizontale
 				verticalCol =false;
 				x = interH[0];
@@ -109,9 +109,19 @@ public class World {
 			}
 
 		}
-
-		return dist(x - xStart, y - yStart) * (verticalCol ? 1 : -1);
-
+		
+		double dist = SimpleMath.dist(x - xStart, y - yStart);
+		double[] normal = new double[2];
+		if ( !verticalCol ) {
+			//normal vers la droite ou la gauche
+			normal[0] = Math.cos(angle)>0 ? -1 : 1;
+		} else {
+			//normal vers le haut ou le bas
+			normal[1] = Math.sin(angle)>0 ? -1 : 1;
+		}
+		double[] pos = { x , y };
+		
+		return new Collision(dist, map[u][v] , pos, normal);
 	}
 
 	/*
@@ -147,23 +157,27 @@ public class World {
 	}
 
 	private boolean isWall(int x, int y) {
-		return !pointInMap(x, y) || map[x][y] == Wall.MurBleu;
+		return !pointInMap(x, y) || map[x][y] != Wall.VIDE;
 	}
 
-	/*
-	 * private double sqrDist(double[] coord) { try { return sqrDist(coord[0],
-	 * coord[1]); } catch (IndexOutOfBoundsException e) {
-	 * System.out.println(e.getMessage()); return -1; } }
-	 */
-
-	private double sqrDist(double x, double y) {
+	/*private double sqrDist(double x, double y) {
 		return x * x + y * y;
 	}
 
 	private double dist(double x, double y) {
 		return Math.sqrt(sqrDist(x, y));
+	}*/
+	
+	
+	//fonction update qui met � jour tous les gameObject
+	//deltaTime en secondes
+	public void update ( double deltaTime ) {
+		for ( GameObject obj : gameObjectLst ) {
+			obj.update(deltaTime);
+		}
 	}
-
+	
+	
 	public World() {
 		this(0, 0);
 	}
@@ -176,17 +190,21 @@ public class World {
 		this(map, Color.DARK_GRAY, Color.gray);
 	}
 
+	//constructeur principal
 	public World(Wall[][] map, Color groundCol, Color roofCol) {
 		
 		//initialisation des couleurs
 		this.groundCol = groundCol;
 		this.roofCol = roofCol;
 		
+		//initialisation des objets de jeu
+		this.gameObjectLst = new ArrayList<GameObject>();
+		
 		//initialisaton de la carte
 		this.map = map;
 		height = map.length;
 
-		// vérification de la taille des lignes
+		// vérification de la taille des lignes dans la carte
 		if (this.map.length > 0) {
 			width = this.map[0].length;
 			for (int i = 0; i < this.map.length; i++) {

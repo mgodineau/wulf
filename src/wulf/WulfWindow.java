@@ -1,6 +1,5 @@
 package wulf;
 
-
 import javax.swing.JFrame;
 
 public class WulfWindow extends JFrame {
@@ -19,12 +18,11 @@ public class WulfWindow extends JFrame {
 	}
 	
 	
-	
 	public WulfWindow( RendererFast rend ) {
 		super("Wulfenstein 3D");
 		
 		panel = new WulfRenderPanel( rend.getImg() );
-		setSize(rend.width, rend.height);
+		setSize(rend.getWidth(), rend.getHeight() );
 		//panel.setBackground(Color.BLUE);
 		setContentPane(panel);
 		

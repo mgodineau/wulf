@@ -9,24 +9,24 @@ public class WulfRenderPanel extends JPanel {
 	
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage display;
+	private BufferedImage img;
 	
 	@Override
 	public void paintComponent( Graphics graph ) {
 		//super.paintComponents(graph);
-		graph.drawImage( getDisplay() , 0, 0, null); //truc qui doit marcher
+		graph.drawImage( getimg() , 0, 0, null); //truc qui doit marcher
 		//graph.fillRect(10, 20, 30, 40);
 	}
 	
-	public WulfRenderPanel( BufferedImage display ) {
-		this.setDisplay(display);
+	public WulfRenderPanel( BufferedImage img ) {
+		this.setimg(img);
 	}
 
-	public BufferedImage getDisplay() {
-		return display;
+	public BufferedImage getimg() {
+		return img;
 	}
 
-	public void setDisplay(BufferedImage display) {
-		this.display = display;
+	public void setimg(BufferedImage img) {
+		this.img = img;
 	}
 }
