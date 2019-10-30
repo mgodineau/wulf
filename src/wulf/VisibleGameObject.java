@@ -25,6 +25,9 @@ public class VisibleGameObject extends GameObject {
 		this.currentTexFile = currentTexFile;
 	}
 	
+	public File[] getTexFileLst() {
+		return texFileLst;
+	}
 	
 	
 	

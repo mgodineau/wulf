@@ -56,6 +56,12 @@ public class World {
 		return gameObjectLst;
 	}
 	
+	public void setInputManager(InputManager inputMng) {
+		for ( GameObject obj : gameObjectLst ) {
+			obj.setInput(inputMng);
+		}
+	}
+	
 	
 	// lance un rayon de (x,y) avec la direction angle (en radian), et retourne la
 	// distance du mur le plus proche, positive ou négative en fonction de si la collision est sur un mur vertical ou horizontal
@@ -220,7 +226,7 @@ public class World {
 		}
 
 	}
-
 	
-
+	
+	
 }

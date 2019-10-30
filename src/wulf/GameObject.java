@@ -8,7 +8,7 @@ public class GameObject {
 	private double angle; //angle en radian
 	
 	private World world;
-	private InputManager input;
+	protected InputManager input;
 	
 	
 	//getter - setter

@@ -34,35 +34,36 @@ public class Camera extends GameObject {
 	private double halfPi = Math.PI / 2;
 	
 	//TODO fct provisoire
-	public void update ( double deltaTimeSec , InputManager inputMng ) {
+	@Override
+	public void update ( double deltaTime ) {
 		
 		//dpl en translation
 		double deltaX = 0;
 		double deltaY = 0;
-		if ( inputMng.isKeyPressed( KeyEvent.VK_Z ) ) {
+		if ( input.isKeyPressed( KeyEvent.VK_Z ) ) {
 			deltaX += Math.cos(getAngleRad()) * spd;
 			deltaY += Math.sin(getAngleRad()) * spd;
 		}
-		if ( inputMng.isKeyPressed( KeyEvent.VK_S ) ) {
+		if ( input.isKeyPressed( KeyEvent.VK_S ) ) {
 			deltaX -= Math.cos(getAngleRad()) * spd;
 			deltaY -= Math.sin(getAngleRad()) * spd;
 		}
-		if ( inputMng.isKeyPressed( KeyEvent.VK_Q ) ) {
+		if ( input.isKeyPressed( KeyEvent.VK_Q ) ) {
 			deltaX += Math.cos(getAngleRad() + halfPi) * spd;
 			deltaY += Math.sin(getAngleRad() + halfPi) * spd;
 		}
-		if ( inputMng.isKeyPressed( KeyEvent.VK_D ) ) {
+		if ( input.isKeyPressed( KeyEvent.VK_D ) ) {
 			deltaX += Math.cos(getAngleRad() - halfPi) * spd;
 			deltaY += Math.sin(getAngleRad() - halfPi) * spd;
 		}
-		setPosX(getPosX() + deltaX*deltaTimeSec);
-		setPosY(getPosY() + deltaY*deltaTimeSec);
+		setPosX(getPosX() + deltaX*deltaTime);
+		setPosY(getPosY() + deltaY*deltaTime);
 		//rotation de la cam
-		if ( inputMng.isKeyPressed(KeyEvent.VK_LEFT) ) {
-			setAngleDeg(getAngleDeg() + angularSpd * deltaTimeSec);
+		if ( input.isKeyPressed(KeyEvent.VK_LEFT) ) {
+			setAngleDeg(getAngleDeg() + angularSpd * deltaTime);
 		}
-		if ( inputMng.isKeyPressed(KeyEvent.VK_RIGHT) ) {
-			setAngleDeg(getAngleDeg() - angularSpd * deltaTimeSec);
+		if ( input.isKeyPressed(KeyEvent.VK_RIGHT) ) {
+			setAngleDeg(getAngleDeg() - angularSpd * deltaTime);
 		}
 	}
 	

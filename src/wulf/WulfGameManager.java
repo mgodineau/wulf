@@ -18,14 +18,14 @@ public class WulfGameManager {
 	public void startLoop() {
 		prevDim = win.getSize();
 		
-		double deltaTimeTgt = 0.16; //tps idéal entre chaque frame
+		double deltaTimeTgt = 16; //tps idéal entre chaque frame
 		double deltaTime = deltaTimeTgt; //deltaTime, en miliseconde
 		double nextDeltaTimeNano = 0;
 		
 		
 		while (true) {
 			nextDeltaTimeNano = -System.nanoTime();
-			update( deltaTime );
+			update( Math.max(deltaTime , deltaTimeTgt));
 			nextDeltaTimeNano += System.nanoTime();
 			deltaTime = nextDeltaTimeNano / 1000000;
 			try {
@@ -45,14 +45,16 @@ public class WulfGameManager {
 		
 		//mise ï¿½ jour de la logique de jeu
 		//TODO faire un truc clean pour virer ces trucs dï¿½gueu
-		cam.update(deltaTime/1000, inputMng);
+		//cam.update(deltaTime/1000, inputMng);
+		world.update(deltaTime/1000);
+		
 		
 		//mise ï¿½ jour de la rï¿½solution de la fenï¿½tre 
 		Dimension dim = win.getSize();
 		if ( dim.height != prevDim.height || dim.width != prevDim.width ) {
 			rend.setHeight( dim.height );
 			rend.setWidth(dim.width);
-			win.getPanel().setimg( rend.getImg() );
+			win.getPanel().setImg( rend.getRenderImg() );
 		}
 		
 		prevDim = dim;
@@ -60,10 +62,13 @@ public class WulfGameManager {
 		
 		
 		//gï¿½nï¿½ration de l'image dans un BufferedImage
-		rend.drawImg(world, cam);
+		synchronized ( rend.getRenderImg() ) {
+			rend.drawImg(world, cam);			
+		}
+		
 		
 		//mise ï¿½ jours de la fenï¿½tre 
-		//win.repaint();
+		win.repaint();
 		
 		
 	}
@@ -80,12 +85,13 @@ public class WulfGameManager {
 		
 		
 		rend = new RendererFast(width, height);
-		rend.loadTextures(world); //pas indispensable
-		rend.loadObjTextures(world);
+		rend.loadTextures2(world);
 		
 		inputMng = new InputManager();
+		world.setInputManager( inputMng );
 		win = new WulfWindow(rend);
 		win.addKeyListener(inputMng);
+		win.setIgnoreRepaint(true); // ???
 	}
 
 }

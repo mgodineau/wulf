@@ -9,16 +9,16 @@ import javax.imageio.ImageIO;
 public enum Wall {
 	
 	VIDE(),
-	MurBleu("assets/textures/blueWall.png"),
-	MurGris("assets/textures/grayWall.png")
+	MurBleu("assets/textures/walls/blueWall.png", "assets/textures/walls/blueWallDark.png"),
+	MurGris("assets/textures/walls/grayWall.png", "assets/textures/walls/grayWallDark.png")
 	;
 	
 	
-	private File textureFile;
+	private File textureFileX;
+	private File textureFileY;
 	
 	
-	
-	public BufferedImage getTexture() {
+	/*public BufferedImage getTexture() {
 		BufferedImage img = null;
 		try {
 			return ImageIO.read(textureFile);
@@ -26,23 +26,27 @@ public enum Wall {
 			System.out.println("Erreur lors du chargement de la texture : " + e.getMessage() + "File : "  + textureFile != null ? textureFile.getPath() : "null" );
 		}
 		return img;
-	}
+	}*/
 	
-	public File getTextureFile() {
-		return textureFile;
+	public File getTextureFileX() {
+		return textureFileX;
+	}
+	public File getTextureFileY() {
+		return textureFileY;
 	}
 	
 	
 	Wall () {
-		this((File)null);
+		this((File)null, (File)null );
 	}
 	
-	Wall( String texturePath ) {
-		this( new File(texturePath) );
+	Wall( String texturePathX, String texturePathY ) {
+		this( new File(texturePathX), new File(texturePathY) );
 	}
 	
-	Wall( File textureFile ) {
-		this.textureFile = textureFile;
+	Wall( File textureFileX, File textureFileY ) {
+		this.textureFileX = textureFileX;
+		this.textureFileY = textureFileY;
 	}
 	
 }

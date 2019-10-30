@@ -21,9 +21,8 @@ public class WulfWindow extends JFrame {
 	public WulfWindow( RendererFast rend ) {
 		super("Wulfenstein 3D");
 		
-		panel = new WulfRenderPanel( rend.getImg() );
+		panel = new WulfRenderPanel( rend.getRenderImg() );
 		setSize(rend.getWidth(), rend.getHeight() );
-		//panel.setBackground(Color.BLUE);
 		setContentPane(panel);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
