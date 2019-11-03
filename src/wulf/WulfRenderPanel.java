@@ -27,7 +27,6 @@ public class WulfRenderPanel extends JPanel {
 		synchronized (img) {
 			graph.drawImage( img , 0, 0, null);
 		}
-		
 	}
 	
 	

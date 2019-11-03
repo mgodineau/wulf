@@ -39,12 +39,12 @@ public class VisibleGameObject extends GameObject {
 	}
 	
 
-	public VisibleGameObject(String string, double posX, double posY, double angle) {
-		this( new String[]{string} , posX, posY, angle );
+	public VisibleGameObject(String string, double posX, double posY, double angle, double radius) {
+		this( new String[]{string} , posX, posY, angle, radius );
 	}
 	
-	public VisibleGameObject( String[] paths, double posX, double posY, double angle ) {
-		super(posX, posY, angle);
+	public VisibleGameObject( String[] paths, double posX, double posY, double angle, double radius ) {
+		super(posX, posY, angle, radius);
 		File[] texFileLst = new File[paths.length];
 		for ( int i=0; i<texFileLst.length; i++ ) {
 			texFileLst[i] = new File( paths[i] );
@@ -58,9 +58,9 @@ public class VisibleGameObject extends GameObject {
 		
 	}
 	
-	public VisibleGameObject( File[] texFileLst, double posX, double posY, double angle) {
+	public VisibleGameObject( File[] texFileLst, double posX, double posY, double angle, double radius) {
 		
-		super(posX, posY, angle);
+		super(posX, posY, angle, radius);
 		setTexFiles(texFileLst);
 	}
 

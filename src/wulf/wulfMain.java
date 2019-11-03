@@ -21,12 +21,12 @@ public class wulfMain {
 		
 		World world = new World(map , Color.gray, Color.darkGray);
 		
-		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 1.5, 1.5, 0 ) );
-		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 4.4, 4.4, 0 ) );
+		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 1.5, 1.5, 0, 0 ) );
+		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 4.4, 4.4, 0, 0 ) );
 		Camera cam = new Camera(90);
 		cam.setAngleDeg(0);
-		cam.setPosX(2);
-		cam.setPosY(2);
+		cam.setPos(2, 2);
+		cam.setRadius(0.1);
 		world.addObj(cam);
 
 		WulfGameManager gameManager = new WulfGameManager(world, cam, 1000, 600);

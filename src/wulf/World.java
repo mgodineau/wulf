@@ -63,17 +63,17 @@ public class World {
 	}
 	
 	
+	public Collision raycast( double xStart, double yStart , double angle) {
+		return raycast( xStart, yStart, Math.cos(angle), Math.sin(angle) );
+	}
+	
 	// lance un rayon de (x,y) avec la direction angle (en radian), et retourne la
 	// distance du mur le plus proche, positive ou négative en fonction de si la collision est sur un mur vertical ou horizontal
-	public Collision raycast(double xStart, double yStart, double angle) {
+	public Collision raycast(double xStart, double yStart, double cos, double sin) {
 		
 		//indicateur de verticalité
 		boolean verticalCol = false;
 		
-		// cos et sin de l'angle
-		double cos = Math.cos(angle);
-		double sin = Math.sin(angle);
-
 		// coordonn�es courrantes
 		double x = xStart;
 		double y = yStart;
@@ -120,21 +120,18 @@ public class World {
 		double[] normal = new double[2];
 		if ( !verticalCol ) {
 			//normal vers la droite ou la gauche
-			normal[0] = Math.cos(angle)>0 ? -1 : 1;
+			normal[0] = cos>0 ? -1 : 1;
 		} else {
 			//normal vers le haut ou le bas
-			normal[1] = Math.sin(angle)>0 ? -1 : 1;
+			normal[1] = sin>0 ? -1 : 1;
 		}
 		double[] pos = { x , y };
 		
 		return new Collision(dist, map[u][v] , pos, normal);
 	}
-
-	/*
-	 * private double[] intersectLine(boolean interWithH, int lineId, double x,
-	 * double y, double angle) { return intersectLine(interWithH, lineId, x, y,
-	 * Math.cos(angle), Math.sin(angle)); }
-	 */
+	
+	
+	
 	// calcul l'intersection avec une ligne de la grille du monde, verticale ou
 	// horizontale
 	private double[] intersectLine(boolean interWithH, int lineId, double x, double y, double cos, double sin) {
@@ -158,11 +155,11 @@ public class World {
 	}
 
 	// d�termine si un point est dans la carte
-	private boolean pointInMap(double x, double y) {
+	public boolean pointInMap(double x, double y) {
 		return (x >= 0 && x < width) && (y >= 0 && y < height);
 	}
 
-	private boolean isWall(int x, int y) {
+	public boolean isWall(int x, int y) {
 		return !pointInMap(x, y) || map[x][y] != Wall.VIDE;
 	}
 

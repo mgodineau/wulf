@@ -3,7 +3,6 @@ package wulf;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,13 +109,12 @@ public class RendererFast {
 		SimpleImage currentTex = null;
 		int left = 0;
 		int right = 0;
-
-		double radToScreen = width / 2 / Math.tan(cam.getFov() / 2);
+		
 		double tanHalfFov = Math.tan(cam.getFov() / 2);
 
-		for (GameObject obj : world.getObjectLst()) {
-			if (obj instanceof VisibleGameObject) {
-
+		for (GameObject obj : world.getObjectLst()) { 
+			if ( obj instanceof VisibleGameObject) {
+				
 				dst = (float) SimpleMath.dist(obj, cam);
 
 				relativeAngle = SimpleMath.relativeAngle(cam, obj) - cam.getAngleRad();

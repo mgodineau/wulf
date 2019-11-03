@@ -56,8 +56,7 @@ public class Camera extends GameObject {
 			deltaX += Math.cos(getAngleRad() - halfPi) * spd;
 			deltaY += Math.sin(getAngleRad() - halfPi) * spd;
 		}
-		setPosX(getPosX() + deltaX*deltaTime);
-		setPosY(getPosY() + deltaY*deltaTime);
+		translate(deltaX * deltaTime, deltaY * deltaTime);
 		//rotation de la cam
 		if ( input.isKeyPressed(KeyEvent.VK_LEFT) ) {
 			setAngleDeg(getAngleDeg() + angularSpd * deltaTime);

@@ -35,7 +35,7 @@ public class WulfGameManager {
 			}
 			
 			//affichage moche du nb de fps
-			//System.out.println( 1.0/(deltaTime/1000.0) + " fps" );
+			System.out.println( 1.0/(deltaTime/1000.0) + " fps" );
 		}
 
 	}
@@ -44,8 +44,6 @@ public class WulfGameManager {
 	public void update( double deltaTime ) {
 		
 		//mise � jour de la logique de jeu
-		//TODO faire un truc clean pour virer ces trucs d�gueu
-		//cam.update(deltaTime/1000, inputMng);
 		world.update(deltaTime/1000);
 		
 		
@@ -69,7 +67,6 @@ public class WulfGameManager {
 		
 		//mise � jours de la fen�tre 
 		win.repaint();
-		
 		
 	}
 	

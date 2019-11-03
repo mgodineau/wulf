@@ -24,7 +24,6 @@ public class WulfWindow extends JFrame {
 		panel = new WulfRenderPanel( rend.getRenderImg() );
 		setSize(rend.getWidth(), rend.getHeight() );
 		setContentPane(panel);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
