@@ -2,7 +2,7 @@ package wulf;
 
 import java.awt.Color;
 
-public class wulfMain {
+public class WulfMain {
 
 	public static void main(String[] args) {
 

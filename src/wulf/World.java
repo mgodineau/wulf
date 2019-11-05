@@ -1,9 +1,10 @@
 package wulf;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class World {
+public class World implements Serializable {
 
 	// reprÃ©sentation du monde
 	private Wall[][] map;
@@ -172,7 +173,7 @@ public class World {
 	}*/
 	
 	
-	//fonction update qui met à jour tous les gameObject
+	//fonction update qui met ï¿½ jour tous les gameObject
 	//deltaTime en secondes
 	public void update ( double deltaTime ) {
 		for ( GameObject obj : gameObjectLst ) {
