@@ -16,7 +16,7 @@ public class RendererFast {
 	private BufferedImage renderImg;
 	private int[] rgbRaster;
 
-	//textures chargées dans une HashMap, pour les retrouver à partir des fichiers
+	//textures chargï¿½es dans une HashMap, pour les retrouver ï¿½ partir des fichiers
 	private HashMap<File ,SimpleImage> fileToRaster;
 
 	private int width;
@@ -72,7 +72,7 @@ public class RendererFast {
 		double halfFov = cam.getFov() / 2;
 		double widthInWorld = Math.tan(halfFov);
 
-		// balayage des colonnes de pixels de l'écran
+		// balayage des colonnes de pixels de l'ï¿½cran
 		for (int x = 0; x < width; x++) {
 			relativeCastAngle = Math.atan2((width - x) * 2 * widthInWorld / width - widthInWorld, 1);
 			raycastAngle = cam.getAngleRad() + relativeCastAngle;
