@@ -19,7 +19,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu.Separator;
 import javax.swing.UIManager;
 
+import wulf.Camera;
 import wulf.World;
+import wulf.WulfGameManager;
+import wulf.WulfMain;
 
 public class MapEditor extends JFrame implements ActionListener {
 
@@ -45,16 +48,32 @@ public class MapEditor extends JFrame implements ActionListener {
 			MenuSaveWorld();
 		} else if ( cmd.equals("New") ) {
 			MenuNewWorld();
+		} else if ( cmd.equals("Play") ) {
+			MenuPlay();
 		}
 
 	}
-
+	
+	
+	private void MenuPlay() {
+		if ( currentWorld == null ) {
+			System.out.println("Imossible de lancer le jeu sans monde");
+			return;
+		}
+		
+		Thread thread = new Thread() {
+			public void run() {
+				WulfMain.main(new String[0]);
+			}
+		};
+		thread.start();
+	}
+	
 	public void MenuOpenWorld() {
 		JFileChooser fChooser = new JFileChooser();
 
 		int openDialog = fChooser.showOpenDialog(null);
 		if (openDialog == JFileChooser.APPROVE_OPTION) {
-			// File worldFile = fChooser.getSelectedFile();
 			openWorld(fChooser.getSelectedFile());
 
 		}
@@ -140,14 +159,20 @@ public class MapEditor extends JFrame implements ActionListener {
 		JMenuBar mb = new JMenuBar();
 
 		// le menu file
-		String[] cmdLst = { "New", "Open", "Save" };
-		JMenu menuFile = createJMenu("File", cmdLst);
-
+		String[] cmdLstFile = { "New", "Open", "Save" };
+		JMenu menuFile = createJMenu("File", cmdLstFile);
+		String[] cmdLstExec = {"Play"};
+		JMenu menuExec = createJMenu("Exec", cmdLstExec);
+		
 		mb.add(menuFile);
+		mb.add( menuExec );
 		setJMenuBar(mb);
 
 		setVisible(true);
 		
+		//création de la fenêtre d'édition
+		WorldPanel pan = new WorldPanel(currentWorld);
+		setContentPane(pan);
 		
 		setCurrentWorld(null);
 	}
