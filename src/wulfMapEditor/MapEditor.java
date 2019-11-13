@@ -2,11 +2,11 @@ package wulfMapEditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -20,25 +20,28 @@ import javax.swing.JPopupMenu.Separator;
 import javax.swing.UIManager;
 
 import wulf.Camera;
+import wulf.Wall;
 import wulf.World;
 import wulf.WulfGameManager;
 import wulf.WulfMain;
 
-public class MapEditor extends JFrame implements ActionListener {
+public class MapEditor extends JFrame implements ActionListener, KeyListener {
 
 	private World currentWorld;
-
+	private WorldPanel panel;
+	
 	public World getCurrentWorld() {
 		return currentWorld;
 	}
 
 	public void setCurrentWorld(World currentWorld) {
 		this.currentWorld = currentWorld;
+		panel.setCurrentWorld(currentWorld);
 		getJMenuBar().getMenu(0).getItem(2).setEnabled( currentWorld != null );
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(ActionEvent event) {	
 //		System.out.println(event);
 		String cmd = event.getActionCommand();
 
@@ -52,6 +55,33 @@ public class MapEditor extends JFrame implements ActionListener {
 			MenuPlay();
 		}
 
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent event) {
+		switch ( event.getKeyCode() ) {
+		case KeyEvent.VK_I:
+			//System.out.println("plus");
+			panel.zoomIn();
+			break;
+		case KeyEvent.VK_O:
+			//System.out.println("moins");
+			panel.zoomOut();
+			break;
+		}
+		//System.out.println("key pressed");
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
@@ -147,7 +177,9 @@ public class MapEditor extends JFrame implements ActionListener {
 		setTitle("Wulfenstein map editor");
 		setSize(600, 400);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+		
+		addKeyListener(this);
+		
 		// sélection du style du système
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -171,14 +203,18 @@ public class MapEditor extends JFrame implements ActionListener {
 		setVisible(true);
 		
 		//création de la fenêtre d'édition
-		WorldPanel pan = new WorldPanel(currentWorld);
-		setContentPane(pan);
+		panel = new WorldPanel(currentWorld);
+		setContentPane(panel);
 		
 		setCurrentWorld(null);
 	}
 
 	public static void main(String[] args) {
-		new MapEditor();
+		MapEditor editor = new MapEditor();
 	}
+	
+	
+	
+	
 
 }
