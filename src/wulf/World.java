@@ -22,6 +22,11 @@ public class World implements Serializable {
 		return map[x][y];
 	}
 	
+	public void setWall(int x, int y, Wall wall) {
+		if ( pointInMap(x, y) ) {
+			map[x][y] = wall;
+		}
+	}
 	
 	public Color getGroundCol() {
 		return groundCol;
@@ -163,14 +168,6 @@ public class World implements Serializable {
 	public boolean isWall(int x, int y) {
 		return !pointInMap(x, y) || map[x][y] != Wall.VIDE;
 	}
-
-	/*private double sqrDist(double x, double y) {
-		return x * x + y * y;
-	}
-
-	private double dist(double x, double y) {
-		return Math.sqrt(sqrDist(x, y));
-	}*/
 	
 	
 	//fonction update qui met � jour tous les gameObject

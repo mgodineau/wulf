@@ -21,7 +21,7 @@ public class WorldPanel extends JPanel implements MouseListener {
 	private World currentWorld;
 	private HashMap<Wall, BufferedImage> wallToImg;
 	private int tileSize;
-	private int zoomSpd;
+	private float zoomSpd;
 	
 	public World getCurrentWorld() {
 		return currentWorld;
@@ -49,7 +49,7 @@ public class WorldPanel extends JPanel implements MouseListener {
 	}
 	
 	public void zoom( boolean in ) {
-		setTileSize( getTileSize() + zoomSpd * (in ? 1 : -1) );
+		setTileSize( (int) (getTileSize() * (in ? zoomSpd : 1.0f/zoomSpd)) );
 		this.repaint();
 	}
 	
@@ -105,10 +105,14 @@ public class WorldPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
+		int[] tileCoord = getWorldCoord( event.getX() , event.getY() );
 		
-		
+		if ( tileCoord != null ) {
+			Wall prevWall = currentWorld.getWall(tileCoord[0], tileCoord[1]);
+			currentWorld.setWall(tileCoord[0], tileCoord[1], cycleWall(prevWall));
+		}
 	}
-
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
 
@@ -122,11 +126,30 @@ public class WorldPanel extends JPanel implements MouseListener {
 	public void mouseReleased(MouseEvent arg0) {}
 
 	
-	public int[] getWorldCoord ( double x, double y ) {
-		System.out.println("x"+x+"y"+y);
-		return null;
+	private int[] getWorldCoord ( double x, double y ) {
+		x -= getWidth()/2; 
+		x += currentWorld.getWidth()/2 * getTileSize();
+		x /= getTileSize();
+		
+		y -= getHeight()/2; 
+		y += currentWorld.getHeight()/2 * getTileSize();
+		y /= getTileSize();
+		y = currentWorld.getHeight() - y;
+		int[] vect2 = { (int) x, (int) y };
+		return currentWorld.pointInMap(x, y) ? vect2 : null;
 	}
 	
+	private Wall cycleWall ( Wall wall ) {
+		switch (wall) {
+		case MurGris:
+			return Wall.MurBleu;
+		case MurBleu:
+			return Wall.VIDE;
+		case VIDE:
+			return Wall.MurBleu;
+		} 
+		return Wall.VIDE;
+	}
 	
 	public WorldPanel() {
 		this(null);
@@ -136,7 +159,7 @@ public class WorldPanel extends JPanel implements MouseListener {
 		setCurrentWorld(currentWorld);
 		setTileSize(50);
 		loadTextures();
-		zoomSpd = 10;
+		zoomSpd = 1.1f;
 		
 		addMouseListener(this);
 	}

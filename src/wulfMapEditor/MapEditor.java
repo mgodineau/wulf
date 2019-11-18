@@ -93,7 +93,8 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener {
 		
 		Thread thread = new Thread() {
 			public void run() {
-				WulfMain.main(new String[0]);
+				//WulfMain.main(new String[0]);
+				WulfMain.launchWorld(currentWorld);
 			}
 		};
 		thread.start();

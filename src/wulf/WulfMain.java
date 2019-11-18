@@ -23,6 +23,12 @@ public class WulfMain {
 		
 		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 1.5, 1.5, 0, 0 ) );
 		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 4.4, 4.4, 0, 0 ) );
+		
+		launchWorld(world);
+	}
+	
+	
+	public static void launchWorld ( World world ) {
 		Camera cam = new Camera(90);
 		cam.setAngleDeg(0);
 		cam.setPos(2, 2);
@@ -31,7 +37,6 @@ public class WulfMain {
 
 		WulfGameManager gameManager = new WulfGameManager(world, cam, 1000, 600);
 		gameManager.startLoop();
-
 	}
 
 }
