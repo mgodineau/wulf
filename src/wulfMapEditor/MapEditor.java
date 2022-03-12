@@ -17,10 +17,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu.Separator;
+
+import gameLogic.Camera;
+import gameLogic.Wall;
+
 import javax.swing.UIManager;
 
-import wulf.Camera;
-import wulf.Wall;
 import wulf.World;
 import wulf.WulfGameManager;
 import wulf.WulfMain;
@@ -130,7 +132,7 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener {
 		setCurrentWorld(new World());
 	}
 	
-	private void openWorld(File worldFile) {
+	public void openWorld(File worldFile) {
 		try {
 			FileInputStream fInput = new FileInputStream(worldFile);
 			ObjectInputStream oInput = new ObjectInputStream(fInput);
@@ -212,6 +214,7 @@ public class MapEditor extends JFrame implements ActionListener, KeyListener {
 
 	public static void main(String[] args) {
 		MapEditor editor = new MapEditor();
+		editor.openWorld( new File("assets/worlds/editedMap.ser") );
 	}
 	
 	

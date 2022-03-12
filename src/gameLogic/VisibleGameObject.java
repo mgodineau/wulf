@@ -1,12 +1,12 @@
-package wulf;
+package gameLogic;
 
 import java.io.File;
 
 //gameObject qui peut s'afficher, donc qui contient des sprites
 public class VisibleGameObject extends GameObject {
 	
-	private File currentTexFile;
-	private File[] texFileLst;
+	protected File currentTexFile;
+	protected File[] texFileLst;
 	
 	
 	
@@ -14,15 +14,8 @@ public class VisibleGameObject extends GameObject {
 		return currentTexFile;
 	}
 	
-	public void setCurrentTexFile( int texId ) {
-		try {
-		setCurrentTexFile( texFileLst[texId] );
-		} catch ( IndexOutOfBoundsException e ) {
-			System.out.println("[VisibleGameObject] wrong texture id - " + e.getMessage() );
-		}
-	}
-	public void setCurrentTexFile(File currentTexFile) {
-		this.currentTexFile = currentTexFile;
+	public File getCurrentTexFile( double viewAngle ) {
+		return getCurrentTexFile();
 	}
 	
 	public File[] getTexFileLst() {
@@ -38,13 +31,13 @@ public class VisibleGameObject extends GameObject {
 		}
 	}
 	
-
+	
 	public VisibleGameObject(String string, double posX, double posY, double angle, double radius) {
 		this( new String[]{string} , posX, posY, angle, radius );
 	}
 	
 	public VisibleGameObject( String[] paths, double posX, double posY, double angle, double radius ) {
-		super(posX, posY, angle, radius);
+		super(posX, posY,0 , angle, radius);
 		File[] texFileLst = new File[paths.length];
 		for ( int i=0; i<texFileLst.length; i++ ) {
 			texFileLst[i] = new File( paths[i] );
@@ -60,7 +53,7 @@ public class VisibleGameObject extends GameObject {
 	
 	public VisibleGameObject( File[] texFileLst, double posX, double posY, double angle, double radius) {
 		
-		super(posX, posY, angle, radius);
+		super(posX, posY,0, angle, radius);
 		setTexFiles(texFileLst);
 	}
 

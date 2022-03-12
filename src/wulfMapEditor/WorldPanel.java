@@ -8,12 +8,14 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import wulf.Wall;
+import gameLogic.Wall;
 import wulf.World;
 
 public class WorldPanel extends JPanel implements MouseListener {
@@ -22,6 +24,8 @@ public class WorldPanel extends JPanel implements MouseListener {
 	private HashMap<Wall, BufferedImage> wallToImg;
 	private int tileSize;
 	private float zoomSpd;
+	
+	private Wall[] cycleOrder;
 	
 	public World getCurrentWorld() {
 		return currentWorld;
@@ -110,6 +114,7 @@ public class WorldPanel extends JPanel implements MouseListener {
 		if ( tileCoord != null ) {
 			Wall prevWall = currentWorld.getWall(tileCoord[0], tileCoord[1]);
 			currentWorld.setWall(tileCoord[0], tileCoord[1], cycleWall(prevWall));
+			repaint();
 		}
 	}
 	
@@ -140,15 +145,12 @@ public class WorldPanel extends JPanel implements MouseListener {
 	}
 	
 	private Wall cycleWall ( Wall wall ) {
-		switch (wall) {
-		case MurGris:
-			return Wall.MurBleu;
-		case MurBleu:
-			return Wall.VIDE;
-		case VIDE:
-			return Wall.MurBleu;
-		} 
-		return Wall.VIDE;
+		for ( int i=0; i<cycleOrder.length; i++ ) {
+			if ( cycleOrder[i] == wall ) {
+				return cycleOrder[ (i<cycleOrder.length-1) ? i+1 : 0 ];
+			}
+		}
+		return null;
 	}
 	
 	public WorldPanel() {
@@ -160,6 +162,10 @@ public class WorldPanel extends JPanel implements MouseListener {
 		setTileSize(50);
 		loadTextures();
 		zoomSpd = 1.1f;
+		cycleOrder = new Wall[3];
+		cycleOrder[0] = Wall.VIDE;
+		cycleOrder[1] = Wall.MurBleu;
+		cycleOrder[2] = Wall.MurGris;
 		
 		addMouseListener(this);
 	}

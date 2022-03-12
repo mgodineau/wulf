@@ -1,4 +1,4 @@
-package wulf;
+package gameLogic;
 
 import java.awt.event.KeyEvent;
 

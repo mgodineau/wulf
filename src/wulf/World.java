@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import gameLogic.Collision;
+import gameLogic.GameObject;
+import gameLogic.Wall;
+
 public class World implements Serializable {
 
 	// représentation du monde

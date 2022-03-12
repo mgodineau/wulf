@@ -2,6 +2,8 @@ package wulf;
 
 import java.awt.Dimension;
 
+import gameLogic.Camera;
+
 public class WulfGameManager {
 	
 	

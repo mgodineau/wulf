@@ -10,6 +10,11 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import gameLogic.Camera;
+import gameLogic.Collision;
+import gameLogic.GameObject;
+import gameLogic.VisibleGameObject;
+
 
 public class RendererFast {
 
@@ -103,6 +108,7 @@ public class RendererFast {
 		float dst = 0;
 		float dstDisp = 0;
 		double relativeAngle = 0;
+		double viewAngle = 0;
 		int centerOnScreen = 0;
 		int scaleOnScreen = 0;
 
@@ -122,7 +128,9 @@ public class RendererFast {
 
 				centerOnScreen = (int) (((tanHalfFov - Math.tan(relativeAngle)) / tanHalfFov) * width / 2);
 				scaleOnScreen = (int) (height / dstDisp);
-				currentTex = fileToRaster.get(((VisibleGameObject) obj).getCurrentTexFile());
+				
+				viewAngle = obj.getAngleRad() - SimpleMath.relativeAngle(obj, cam);
+				currentTex = fileToRaster.get(((VisibleGameObject) obj).getCurrentTexFile(viewAngle));
 				left = centerOnScreen - scaleOnScreen / 2;
 				right = centerOnScreen + scaleOnScreen / 2;
 

@@ -1,4 +1,4 @@
-package wulf;
+package gameLogic;
 
 public class Collision {
 	

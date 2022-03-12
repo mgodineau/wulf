@@ -1,5 +1,7 @@
 package wulf;
 
+import gameLogic.GameObject;
+
 //ensemble de fonctions de math basiques
 public class SimpleMath {
 	

@@ -2,6 +2,11 @@ package wulf;
 
 import java.awt.Color;
 
+import gameLogic.Camera;
+import gameLogic.Soldier;
+import gameLogic.VisibleGameObject;
+import gameLogic.Wall;
+
 public class WulfMain {
 
 	public static void main(String[] args) {
@@ -21,8 +26,9 @@ public class WulfMain {
 		
 		World world = new World(map , Color.gray, Color.darkGray);
 		
-		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 1.5, 1.5, 0, 0 ) );
-		world.addObj( new VisibleGameObject("assets/textures/objects/barrel.png", 4.4, 4.4, 0, 0 ) );
+		world.addObj( new VisibleGameObject("assets/textures/objects/barrel/barrel.png", 1.5, 1.5, 0, 0 ) );
+		world.addObj( new VisibleGameObject("assets/textures/objects/barrel/barrel.png", 4.4, 4.4, 0, 0 ) );
+		world.addObj( new Soldier(2.5, 5.5, 90) );
 		
 		launchWorld(world);
 	}

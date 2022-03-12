@@ -1,5 +1,7 @@
 package wulf;
 
+import gameLogic.Camera;
+
 public abstract class Renderer {
 	
 	

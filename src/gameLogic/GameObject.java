@@ -1,9 +1,14 @@
-package wulf;
+package gameLogic;
+
+import wulf.InputManager;
+import wulf.SimpleMath;
+import wulf.World;
 
 public class GameObject {
 
 	private double posX;
 	private double posY;
+	private double height;
 	private double angle; // angle en radian
 	private double radius;
 
@@ -26,6 +31,14 @@ public class GameObject {
 
 	public double getPosY() {
 		return posY;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
 	public boolean setPos(double x, double y) {
@@ -134,10 +147,10 @@ public class GameObject {
 	}
 
 	public GameObject(double posX, double posY) {
-		this(posX, posY, 90, 0.5);
+		this(posX, posY, 0, 90, 0.5);
 	}
 
-	public GameObject(double posX, double posY, double angle, double radius) {
+	public GameObject(double posX, double posY, double height, double angle, double radius ) {
 		setPos(posX, posY);
 		setAngleDeg(angle);
 		setRadius(radius);
